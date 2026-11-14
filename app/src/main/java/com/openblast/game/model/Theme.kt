@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 
 enum class BlockStyleType {
     FLAT_ROUNDED,
-    GLASS,
     TILKAJO,
     SAUSAGE,
     MATERIAL

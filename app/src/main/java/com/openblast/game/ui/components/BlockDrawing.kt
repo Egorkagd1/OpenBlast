@@ -138,9 +138,6 @@ object BlockDrawing {
         val innerSize = Size(size.width - padding * 2, size.height - padding * 2)
 
         when (theme.styleType) {
-            BlockStyleType.GLASS -> {
-                drawVolumetricLiquidGlassBlock(drawScope, innerTopLeft, innerSize, baseColor, gradient, isGhost)
-            }
             BlockStyleType.TILKAJO -> {
                 val bm = tilkaioBitmap
                 if (bm != null) {
@@ -230,95 +227,7 @@ object BlockDrawing {
         )
     }
 
-    // 1. APPLE FROSTED GLASS (Glassmorphism в стиле iOS)
-    private fun drawVolumetricLiquidGlassBlock(
-        drawScope: DrawScope,
-        topLeft: Offset,
-        size: Size,
-        baseColor: Color,
-        gradient: Pair<Color, Color>?,
-        isGhost: Boolean
-    ) {
-        val w = size.width
-        val h = size.height
-        val cornerRadius = CornerRadius(w * 0.28f, h * 0.28f)
-
-        if (isGhost) {
-            drawScope.drawRoundRect(
-                color = baseColor.copy(alpha = 0.22f),
-                topLeft = topLeft,
-                size = size,
-                cornerRadius = cornerRadius
-            )
-            return
-        }
-
-        val brightColor = gradient?.first ?: baseColor
-        val darkColor = gradient?.second ?: baseColor
-
-        drawScope.drawRoundRect(
-            color = Color.Black.copy(alpha = 0.25f),
-            topLeft = Offset(topLeft.x, topLeft.y + h * 0.06f),
-            size = size,
-            cornerRadius = cornerRadius
-        )
-
-        drawScope.drawRoundRect(
-            color = Color.White.copy(alpha = 0.12f),
-            topLeft = topLeft,
-            size = size,
-            cornerRadius = cornerRadius
-        )
-
-        val frostedTint = Brush.verticalGradient(
-            colors = listOf(
-                brightColor.copy(alpha = 0.52f),
-                darkColor.copy(alpha = 0.38f)
-            ),
-            startY = topLeft.y,
-            endY = topLeft.y + h
-        )
-        drawScope.drawRoundRect(
-            brush = frostedTint,
-            topLeft = topLeft,
-            size = size,
-            cornerRadius = cornerRadius
-        )
-
-        val topSheen = Brush.verticalGradient(
-            colors = listOf(
-                Color.White.copy(alpha = 0.32f),
-                Color.Transparent
-            ),
-            startY = topLeft.y,
-            endY = topLeft.y + h * 0.55f
-        )
-        drawScope.drawRoundRect(
-            brush = topSheen,
-            topLeft = topLeft,
-            size = size,
-            cornerRadius = cornerRadius
-        )
-
-        val borderBrush = Brush.verticalGradient(
-            colors = listOf(
-                Color.White.copy(alpha = 0.75f),
-                Color.White.copy(alpha = 0.18f),
-                Color.White.copy(alpha = 0.40f)
-            ),
-            startY = topLeft.y,
-            endY = topLeft.y + h
-        )
-        drawScope.drawRoundRect(
-            brush = borderBrush,
-            topLeft = topLeft,
-            size = size,
-            cornerRadius = cornerRadius,
-            style = Stroke(width = (w * 0.035f).coerceAtLeast(1.2f))
-        )
-    }
-
-    // 2. ЖИРНЫЙ КРУГЛЫЙ РАСТЯНУТЫЙ ТИЛЬКАЙО (Leopardus tilcayo Meme Chonker)
+    // 1. ЖИРНЫЙ КРУГЛЫЙ РАСТЯНУТЫЙ ТИЛЬКАЙО (Leopardus tilcayo Meme Chonker)
     private fun drawFatStretchedTilkajo(
         drawScope: DrawScope,
         topLeft: Offset,
